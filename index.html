@@ -1,100 +1,333 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>YT Player</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-html, body {
-  margin: 0;
-  width: 100%;
-  height: 100%;
-  background: #000;
-  overflow: hidden;
-  font-family: Arial, sans-serif;
-}
+  <title>Core Hub Games — App Downloads</title>
 
-#wrap {
-  width: 100vw;
-  height: 100vh;
-  background: #000;
-}
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-iframe {
-  width: 100%;
-  height: 100%;
-  border: 0;
-  background: #000;
-}
+    body {
+      font-family: Inter, Arial, sans-serif;
+      background: #f7faff;
+      color: #172033;
+      min-height: 100vh;
+    }
 
-#empty {
-  width: 100%;
-  height: 100%;
-  display: grid;
-  place-items: center;
-  color: #aaa;
-  font-size: 18px;
-}
-</style>
+    .top-bar {
+      height: 4px;
+      background: #087cff;
+    }
+
+    header {
+      text-align: center;
+      padding: 55px 20px 30px;
+    }
+
+    /* Wide horizontal logo area */
+    .logo {
+      width: 360px;
+      height: 115px;
+      margin: 0 auto 25px;
+      border-radius: 24px;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(8, 124, 255, 0.12);
+    }
+
+    .logo img {
+      width: 90%;
+      height: 90%;
+      object-fit: contain;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #eaf4ff;
+      color: #087cff;
+      font-size: 12px;
+      font-weight: 800;
+      padding: 7px 13px;
+      border-radius: 999px;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      font-size: 42px;
+      letter-spacing: -1.5px;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      color: #667085;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .downloads {
+      width: min(1000px, calc(100% - 32px));
+      margin: 28px auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .game-card {
+      background: white;
+      border: 1px solid #e5edf7;
+      border-radius: 20px;
+      padding: 25px;
+      box-shadow: 0 8px 30px rgba(24, 67, 112, 0.06);
+      transition: 0.2s ease;
+    }
+
+    .game-card:hover {
+      transform: translateY(-4px);
+      border-color: #cfe5ff;
+      box-shadow: 0 15px 40px rgba(8, 124, 255, 0.12);
+    }
+
+    .game-number {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: #eaf4ff;
+      color: #087cff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      margin-bottom: 22px;
+    }
+
+    .game-card h2 {
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+
+    .game-card p {
+      color: #7a8495;
+      font-size: 14px;
+      line-height: 1.5;
+      min-height: 44px;
+      margin-bottom: 22px;
+    }
+
+    .download-btn {
+      width: 100%;
+      border: none;
+      border-radius: 12px;
+      padding: 13px 16px;
+      background: #087cff;
+      color: white;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .download-btn:hover {
+      background: #006de5;
+      transform: translateY(-1px);
+    }
+
+    .notice {
+      text-align: center;
+      color: #98a2b3;
+      font-size: 12px;
+      margin: 5px auto 35px;
+      padding: 0 20px;
+    }
+
+    .terms {
+      text-align: center;
+      padding: 0 20px 35px;
+      color: #98a2b3;
+      font-size: 11px;
+    }
+
+    .terms a {
+      color: #7b8798;
+      text-decoration: underline;
+    }
+
+    @media (max-width: 750px) {
+      header {
+        padding-top: 35px;
+      }
+
+      .logo {
+        width: min(360px, 90%);
+        height: 105px;
+      }
+
+      h1 {
+        font-size: 34px;
+      }
+
+      .downloads {
+        grid-template-columns: 1fr;
+        max-width: 450px;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .logo {
+        height: 90px;
+        border-radius: 20px;
+      }
+
+      h1 {
+        font-size: 30px;
+      }
+    }
+  </style>
 </head>
 
 <body>
-<div id="wrap">
-  <div id="empty">Waiting for video...</div>
-</div>
 
-<script>
-function getVideoId() {
-  const params = new URLSearchParams(window.location.search);
-  return params.get("v") || params.get("video") || params.get("id") || "";
-}
+  <div class="top-bar"></div>
 
-function cleanVideoId(id) {
-  return String(id || "").replace(/[^a-zA-Z0-9_-]/g, "").slice(0, 20);
-}
+  <header>
 
-function loadVideo() {
-  const videoId = cleanVideoId(getVideoId());
-  const wrap = document.getElementById("wrap");
+    <div class="logo">
+      <img
+        src="https://corehub-web.web.app/logo"
+        alt="Core Hub Games"
+      >
+    </div>
 
-  if (!videoId) {
-    wrap.innerHTML = '<div id="empty">Waiting for video...</div>';
-    return;
-  }
+    <div class="badge">
+      CORE HUB GAMES
+    </div>
 
-  wrap.innerHTML = `
-    <iframe
-      src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1"
-      allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
-      allowfullscreen>
-    </iframe>
-  `;
-}
+    <h1>
+      App Downloads
+    </h1>
 
-window.addEventListener("message", function(event) {
-  if (!event.data) return;
+    <p class="subtitle">
+      Download the Core Hub Games apps and get ready to play.
+    </p>
 
-  let videoId = "";
+  </header>
 
-  if (typeof event.data === "string") {
-    videoId = event.data;
-  }
 
-  if (typeof event.data === "object") {
-    videoId = event.data.videoId || event.data.id || "";
-  }
+  <main class="downloads">
 
-  videoId = cleanVideoId(videoId);
+    <!-- Riddle School 1 -->
+    <div class="game-card">
 
-  if (!videoId) return;
+      <div class="game-number">
+        01
+      </div>
 
-  history.replaceState(null, "", "?v=" + encodeURIComponent(videoId));
+      <h2>
+        Riddle School 1
+      </h2>
 
-  loadVideo();
-});
+      <p>
+        Download the Riddle School 1 app.
+      </p>
 
-loadVideo();
-</script>
+      <button
+        class="download-btn"
+        onclick="downloadGame('riddle-school-1')"
+      >
+        Download
+      </button>
+
+    </div>
+
+
+    <!-- Riddle School 2 -->
+    <div class="game-card">
+
+      <div class="game-number">
+        02
+      </div>
+
+      <h2>
+        Riddle School 2
+      </h2>
+
+      <p>
+        Download the Riddle School 2 app.
+      </p>
+
+      <button
+        class="download-btn"
+        onclick="downloadGame('riddle-school-2')"
+      >
+        Download
+      </button>
+
+    </div>
+
+
+    <!-- Riddle School 3 -->
+    <div class="game-card">
+
+      <div class="game-number">
+        03
+      </div>
+
+      <h2>
+        Riddle School 3
+      </h2>
+
+      <p>
+        Download the Riddle School 3 app.
+      </p>
+
+      <button
+        class="download-btn"
+        onclick="downloadGame('riddle-school-3')"
+      >
+        Download
+      </button>
+
+    </div>
+
+  </main>
+
+
+  <div class="notice">
+    The games will be added into the apps soon.
+  </div>
+
+
+  <footer class="terms">
+
+    By downloading and using Core Hub Games,
+    you agree to our
+
+    <a href="#">
+      Terms &amp; Conditions
+    </a>.
+
+  </footer>
+
+
+  <script>
+
+    // Add your real download logic here later
+
+    function downloadGame(game) {
+      console.log("Download requested:", game);
+    }
+
+  </script>
+
 </body>
 </html>
+
