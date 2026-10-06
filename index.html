@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Core Hub Games — App Downloads</title>
+  <title>Core Hub Games — Riddle School Launcher</title>
 
   <style>
     * {
@@ -19,6 +19,8 @@
       background: #f7faff;
       color: #172033;
       min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
 
     .top-bar {
@@ -26,29 +28,11 @@
       background: #087cff;
     }
 
-    header {
+    main {
+      width: min(680px, calc(100% - 32px));
+      margin: auto;
+      padding: 70px 0 35px;
       text-align: center;
-      padding: 55px 20px 30px;
-    }
-
-    /* Wide horizontal logo area */
-    .logo {
-      width: 360px;
-      height: 115px;
-      margin: 0 auto 25px;
-      border-radius: 24px;
-      background: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      box-shadow: 0 10px 30px rgba(8, 124, 255, 0.12);
-    }
-
-    .logo img {
-      width: 90%;
-      height: 90%;
-      object-fit: contain;
     }
 
     .badge {
@@ -59,79 +43,54 @@
       font-weight: 800;
       padding: 7px 13px;
       border-radius: 999px;
-      margin-bottom: 14px;
+      margin-bottom: 18px;
+      letter-spacing: 0.3px;
     }
 
     h1 {
       font-size: 42px;
       letter-spacing: -1.5px;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
 
     .subtitle {
       color: #667085;
       font-size: 16px;
       line-height: 1.6;
+      margin-bottom: 32px;
     }
 
-    .downloads {
-      width: min(1000px, calc(100% - 32px));
-      margin: 28px auto;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-    }
-
-    .game-card {
+    .download-card {
       background: white;
       border: 1px solid #e5edf7;
-      border-radius: 20px;
-      padding: 25px;
-      box-shadow: 0 8px 30px rgba(24, 67, 112, 0.06);
-      transition: 0.2s ease;
+      border-radius: 22px;
+      padding: 32px;
+      box-shadow: 0 12px 40px rgba(24, 67, 112, 0.08);
     }
 
-    .game-card:hover {
-      transform: translateY(-4px);
-      border-color: #cfe5ff;
-      box-shadow: 0 15px 40px rgba(8, 124, 255, 0.12);
+    .download-card h2 {
+      font-size: 24px;
+      margin-bottom: 10px;
     }
 
-    .game-number {
-      width: 42px;
-      height: 42px;
-      border-radius: 12px;
-      background: #eaf4ff;
-      color: #087cff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
-      margin-bottom: 22px;
-    }
-
-    .game-card h2 {
-      font-size: 20px;
-      margin-bottom: 8px;
-    }
-
-    .game-card p {
+    .download-card p {
       color: #7a8495;
       font-size: 14px;
-      line-height: 1.5;
-      min-height: 44px;
-      margin-bottom: 22px;
+      line-height: 1.6;
+      margin-bottom: 24px;
     }
 
     .download-btn {
+      display: block;
       width: 100%;
       border: none;
-      border-radius: 12px;
-      padding: 13px 16px;
+      border-radius: 13px;
+      padding: 15px 18px;
       background: #087cff;
       color: white;
-      font-size: 14px;
+      font-size: 15px;
       font-weight: 700;
+      text-decoration: none;
       cursor: pointer;
       transition: 0.2s ease;
     }
@@ -139,56 +98,41 @@
     .download-btn:hover {
       background: #006de5;
       transform: translateY(-1px);
-    }
-
-    .notice {
-      text-align: center;
-      color: #98a2b3;
-      font-size: 12px;
-      margin: 5px auto 35px;
-      padding: 0 20px;
+      box-shadow: 0 8px 20px rgba(8, 124, 255, 0.2);
     }
 
     .terms {
+      margin-top: 25px;
+      padding: 18px;
+      border-radius: 14px;
+      background: #f0f5fb;
+      color: #7a8495;
+      font-size: 11px;
+      line-height: 1.6;
+    }
+
+    .terms strong {
+      color: #4d596b;
+    }
+
+    footer {
       text-align: center;
-      padding: 0 20px 35px;
-      color: #98a2b3;
+      padding: 0 20px 30px;
+      color: #a0a9b8;
       font-size: 11px;
     }
 
-    .terms a {
-      color: #7b8798;
-      text-decoration: underline;
-    }
-
-    @media (max-width: 750px) {
-      header {
-        padding-top: 35px;
-      }
-
-      .logo {
-        width: min(360px, 90%);
-        height: 105px;
+    @media (max-width: 600px) {
+      main {
+        padding-top: 45px;
       }
 
       h1 {
-        font-size: 34px;
+        font-size: 32px;
       }
 
-      .downloads {
-        grid-template-columns: 1fr;
-        max-width: 450px;
-      }
-    }
-
-    @media (max-width: 420px) {
-      .logo {
-        height: 90px;
-        border-radius: 20px;
-      }
-
-      h1 {
-        font-size: 30px;
+      .download-card {
+        padding: 25px 20px;
       }
     }
   </style>
@@ -198,135 +142,54 @@
 
   <div class="top-bar"></div>
 
-  <header>
-
-    <div class="logo">
-      <img
-        src="https://corehub-web.web.app/logo.png"
-        alt="Core Hub Games"
-      >
-    </div>
+  <main>
 
     <div class="badge">
       CORE HUB GAMES
     </div>
 
     <h1>
-      App Downloads
+      Riddle School Launcher
     </h1>
 
     <p class="subtitle">
-      Download the Core Hub Games apps and get ready to play.
+      Download the Riddle School Launcher for Core Hub Games.
     </p>
 
-  </header>
-
-
-  <main class="downloads">
-
-    <!-- Riddle School 1 -->
-    <div class="game-card">
-
-      <div class="game-number">
-        01
-      </div>
+    <div class="download-card">
 
       <h2>
-        Riddle School 1
+        Riddle School Launcher
       </h2>
 
       <p>
-        Download the Riddle School 1 app.
+        Download the launcher and get started with Core Hub Games.
       </p>
 
-      <button
+      <a
         class="download-btn"
-        onclick="downloadGame('riddle-school-1')"
+        href="https://cyiteam4-sketch.github.io/RiddleschoolLauncher%20Core%20Hub%20Games.zip"
+        download
       >
-        Download
-      </button>
+        Download Riddle School Launcher
+      </a>
 
-    </div>
+      <div class="terms">
+        <strong>Usage Terms</strong><br><br>
 
-
-    <!-- Riddle School 2 -->
-    <div class="game-card">
-
-      <div class="game-number">
-        02
+        This software is provided by Core Hub Games for personal use.
+        You may not modify, redistribute, repackage, decompile, reverse engineer,
+        or attempt to extract or alter the software or its contents without
+        permission from Core Hub Games.
       </div>
-
-      <h2>
-        Riddle School 2
-      </h2>
-
-      <p>
-        Download the Riddle School 2 app.
-      </p>
-
-      <button
-        class="download-btn"
-        onclick="downloadGame('riddle-school-2')"
-      >
-        Download
-      </button>
-
-    </div>
-
-
-    <!-- Riddle School 3 -->
-    <div class="game-card">
-
-      <div class="game-number">
-        03
-      </div>
-
-      <h2>
-        Riddle School 3
-      </h2>
-
-      <p>
-        Download the Riddle School 3 app.
-      </p>
-
-      <button
-        class="download-btn"
-        onclick="downloadGame('riddle-school-3')"
-      >
-        Download
-      </button>
 
     </div>
 
   </main>
 
-
-  <div class="notice">
-    The games will be added into the apps soon.
-  </div>
-
-
-  <footer class="terms">
-
-    By downloading and using Core Hub Games,
-    you agree to our
-
-    <a href="#">
-      Terms &amp; Conditions
-    </a>.
-
+  <footer>
+    © 2026 Core Hub Games
   </footer>
-
-
-  <script>
-
-    // Add your real download logic here later
-
-    function downloadGame(game) {
-      console.log("Download requested:", game);
-    }
-
-  </script>
 
 </body>
 </html>
